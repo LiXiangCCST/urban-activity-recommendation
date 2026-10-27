@@ -16,3 +16,7 @@ outputs.zip
 .env
 .env.*
 !.env.example
+
+# 本地文档和阶段性文件
+docs/
+stages/
