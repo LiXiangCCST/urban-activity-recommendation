@@ -1,0 +1,132 @@
+data_mode: synthetic
+case_city: "New York City"
+candidate_area_type: "census_tract"
+crs: "EPSG:4326"
+bounding_box:
+  min_lon: -74.2591
+  min_lat: 40.4774
+  max_lon: -73.7004
+  max_lat: 40.9176
+
+paths:
+  synthetic_sample: data/sample
+  outputs: outputs
+  nyc_raw: data/raw/nyc
+  nyc_processed: data/processed/nyc
+
+nyc:
+  candidate_area_type: "census_tract"
+  crs: "EPSG:4326"
+  max_areas: 50
+  max_resources: 500
+  raw_paths:
+    candidate_areas: data/raw/nyc/census_areas.csv
+    census_areas: data/raw/nyc/census_areas.csv
+    acs_tracts: data/raw/nyc/acs_tracts.csv
+    facilities: data/raw/nyc/facilities.csv
+    schools: data/raw/nyc/schools.csv
+    hospitals: data/raw/nyc/hospitals.csv
+    parks: data/raw/nyc/parks.csv
+    libraries: data/raw/nyc/libraries.csv
+    grocery: data/raw/nyc/grocery.csv
+    housing_cost: data/raw/nyc/housing_cost.csv
+    risk: data/raw/nyc/risk.csv
+    transit_stops: data/raw/nyc/transit_stops.csv
+    gtfs_zip: data/raw/nyc/gtfs.zip
+  processed_paths:
+    areas: data/processed/nyc/areas.csv
+    resources: data/processed/nyc/resources.csv
+    transit_stops: data/processed/nyc/transit_stops.csv
+    travel_times: data/processed/nyc/travel_times.csv
+    travel_times_long: data/processed/nyc/travel_times_long.csv
+    metadata: data/processed/nyc/metadata.yaml
+  dataset_urls:
+    nyc_311: "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+    nyc_pluto: "https://www.nyc.gov/site/planning/data-maps/open-data/dwn-pluto-mappluto.page"
+    nyc_open_data_catalog: "https://data.cityofnewyork.us/"
+    census_acs: "https://www.census.gov/data/developers/data-sets/acs-5year.html"
+    osm_geofabrik: "https://download.geofabrik.de/north-america/us/new-york.html"
+    mta_developer: "https://new.mta.info/developers"
+  expected_files:
+    - data/raw/nyc/census_areas.csv
+    - data/raw/nyc/facilities.csv
+    - data/raw/nyc/transit_stops.csv
+    - data/raw/nyc/housing_cost.csv
+    - data/raw/nyc/risk.csv
+  speed_kmh:
+    walk: 4.8
+    bike: 14.0
+    car: 25.0
+    transit: 18.0
+  category_mapping:
+    school: school
+    schools: school
+    education: school
+    hospital: hospital
+    hospitals: hospital
+    clinic: hospital
+    health: hospital
+    grocery: grocery
+    groceries: grocery
+    supermarket: grocery
+    food: grocery
+    park: park
+    parks: park
+    open_space: park
+    transit: transit
+    transit_stops: transit
+    subway: transit
+    bus: transit
+    leisure: leisure
+    library: public_service
+    libraries: public_service
+    police: public_service
+    fire: public_service
+    public_service: public_service
+    facilities: public_service
+    employment: employment
+
+travel_time_source: effective_multimodal
+travel_time:
+  walking_detour_factor: 1.25
+  walking_speed_m_per_min: 80.0
+  gtfs_transit_speed_kmh: 22.0
+  road_fallback_speed_kmh: 22.0
+  ridehail_cost_penalty_minutes:
+    low: 25.0
+    middle: 12.0
+    high: 4.0
+  walking_over_15_penalty_minutes: 10.0
+  elderly_long_walk_penalty_minutes: 20.0
+  max_trip_files:
+
+sample_data:
+  random_seed: 42
+  n_areas: 36
+  grid_width: 6
+  resources_per_category: 8
+  theta_by_category:
+    employment: 28.0
+    school: 18.0
+    hospital: 22.0
+    grocery: 12.0
+    park: 15.0
+    transit: 10.0
+    leisure: 18.0
+    public_service: 20.0
+
+reward_weights:
+  alpha_access: 1.0
+  alpha_activity_fit: 0.35
+  alpha_mobility: 0.30
+  alpha_equity: 0.25
+  beta_cost: 0.45
+  beta_commute: 0.35
+  beta_risk: 0.40
+
+baselines:
+  fifteen_minute_threshold: 15.0
+
+environment:
+  max_steps: 8
+  start_area: random

@@ -1,0 +1,18 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Python 虚拟环境
+.venv/
+venv/
+
+# 数据和实验输出
+data/
+outputs/
+outputs.zip
+
+# 常见敏感配置
+.env
+.env.*
+!.env.example

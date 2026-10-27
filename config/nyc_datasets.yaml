@@ -1,0 +1,111 @@
+datasets:
+  - dataset_id: nyc_school_locations
+    name: NYC school locations
+    source_platform: NYC Open Data / NYC Department of Education
+    url: https://data.cityofnewyork.us/
+    direct_download_url:
+    expected_local_filename: schools.csv
+    dataset_type: schools
+    required_columns_after_standardization: [resource_id, name, category, lon, lat, quality_score, source]
+    optional_columns: [address, school_level, quality_score]
+    notes: Use a NYC Open Data school location or school directory export with coordinates. Search the portal for school locations, school points, or DOE school directory.
+    manual_download_instructions: Export CSV from NYC Open Data, rename it to schools.csv, and place it in data/raw/nyc/real/.
+  - dataset_id: nyc_health_facilities
+    name: NYC hospitals and health facilities
+    source_platform: NYC Open Data / NYS Health Profiles
+    url: https://data.cityofnewyork.us/
+    direct_download_url:
+    expected_local_filename: hospitals.csv
+    dataset_type: hospitals
+    required_columns_after_standardization: [resource_id, name, category, lon, lat, quality_score, source]
+    optional_columns: [address, facility_type, quality_score]
+    notes: Use a hospital, clinic, or health facility export with longitude and latitude.
+    manual_download_instructions: Export CSV, rename it to hospitals.csv, and place it in data/raw/nyc/real/.
+  - dataset_id: nyc_parks_properties
+    name: NYC park properties or park facilities
+    source_platform: NYC Open Data / NYC Parks
+    url: https://data.cityofnewyork.us/
+    direct_download_url:
+    expected_local_filename: parks.csv
+    dataset_type: parks
+    required_columns_after_standardization: [resource_id, name, category, lon, lat, quality_score, source]
+    optional_columns: [address, park_type, quality_score]
+    notes: Polygon datasets should be converted to centroids before use unless lon/lat fields are included.
+    manual_download_instructions: Export CSV with centroid coordinates, rename it to parks.csv, and place it in data/raw/nyc/real/.
+  - dataset_id: nyc_libraries
+    name: NYC public library locations
+    source_platform: NYC Open Data / NYPL / BPL / QPL
+    url: https://data.cityofnewyork.us/
+    direct_download_url:
+    expected_local_filename: libraries.csv
+    dataset_type: libraries
+    required_columns_after_standardization: [resource_id, name, category, lon, lat, quality_score, source]
+    optional_columns: [address, branch_type, quality_score]
+    notes: Branch lists from library systems can be merged if each row has coordinates.
+    manual_download_instructions: Export or compile branch CSV, rename it to libraries.csv, and place it in data/raw/nyc/real/.
+  - dataset_id: nyc_grocery_food_retail
+    name: Grocery and food retail locations
+    source_platform: NYC Open Data / state or local retail food datasets
+    url: https://data.cityofnewyork.us/
+    direct_download_url:
+    expected_local_filename: grocery.csv
+    dataset_type: grocery
+    required_columns_after_standardization: [resource_id, name, category, lon, lat, quality_score, source]
+    optional_columns: [address, store_type, quality_score]
+    notes: Use grocery/supermarket/retail food stores where licensing permits public reuse.
+    manual_download_instructions: Export CSV, rename it to grocery.csv, and place it in data/raw/nyc/real/.
+  - dataset_id: nyc_subway_stations
+    name: NYC subway stations or transit stops
+    source_platform: NYC Open Data / MTA
+    url: https://new.mta.info/developers
+    direct_download_url:
+    expected_local_filename: transit_stops.csv
+    dataset_type: transit_stops
+    required_columns_after_standardization: [stop_id, name, lon, lat, route_count, service_score, source]
+    optional_columns: [route_count, service_score]
+    notes: A simple station CSV is enough for the current proxy; full GTFS is preferred for future routing.
+    manual_download_instructions: Export station/stop CSV as transit_stops.csv or place a GTFS zip as gtfs.zip in data/raw/nyc/real/.
+  - dataset_id: mta_subway_gtfs
+    name: MTA subway GTFS static feed
+    source_platform: MTA
+    url: https://new.mta.info/developers
+    direct_download_url: http://web.mta.info/developers/data/nyct/subway/google_transit.zip
+    expected_local_filename: gtfs.zip
+    dataset_type: gtfs
+    required_columns_after_standardization: [stop_id, name, lon, lat, route_count, service_score, source]
+    optional_columns: [route_count, service_score]
+    notes: Direct URL may change; if download fails, use the MTA developer page and place the zip manually.
+    manual_download_instructions: Download the subway GTFS static feed from MTA and save it as data/raw/nyc/real/gtfs.zip.
+  - dataset_id: nyc_candidate_areas
+    name: NYC neighborhoods, NTAs, or census tract centroids
+    source_platform: NYC Planning / Census TIGER / ACS
+    url: https://www.nyc.gov/site/planning/data-maps/open-data.page
+    direct_download_url:
+    expected_local_filename: census_areas.csv
+    dataset_type: census_areas
+    required_columns_after_standardization: [area_id, name, lon, lat, population, median_income, housing_cost, risk_score, transit_score, source]
+    optional_columns: [median_rent, housing_cost, risk_score, transit_score]
+    notes: Current prototype uses centroids. Convert tract/neighborhood polygons to centroid CSV before running real mode.
+    manual_download_instructions: Build a centroid CSV from Census/NYC Planning boundaries and ACS attributes, rename it census_areas.csv, and place it in data/raw/nyc/real/.
+  - dataset_id: census_acs_income_housing
+    name: ACS income and housing cost attributes
+    source_platform: U.S. Census ACS
+    url: https://www.census.gov/data/developers/data-sets/acs-5year.html
+    direct_download_url:
+    expected_local_filename: housing_cost.csv
+    dataset_type: housing_cost
+    required_columns_after_standardization: [area_id, housing_cost]
+    optional_columns: [source_year, median_income, population]
+    notes: API use may require a Census key depending on endpoint and policy. This project supports local files only at this stage.
+    manual_download_instructions: Download ACS table values, join to the candidate area IDs, and save as housing_cost.csv.
+  - dataset_id: osm_pois_optional
+    name: OpenStreetMap POIs for NYC
+    source_platform: OpenStreetMap / OSMnx
+    url: https://www.openstreetmap.org/copyright
+    direct_download_url:
+    expected_local_filename: osm_pois.csv
+    dataset_type: facilities
+    required_columns_after_standardization: [resource_id, name, category, lon, lat, quality_score, source]
+    optional_columns: [osm_id, amenity, shop, leisure]
+    notes: Optional OSMnx/network path only. Offline manual extracts can be converted to facilities.csv or osm_pois.csv.
+    manual_download_instructions: Export OSM POIs with lon/lat and category tags, then place as osm_pois.csv or merge into facilities.csv.
